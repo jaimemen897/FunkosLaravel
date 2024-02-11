@@ -43,11 +43,6 @@ class FunkosController extends Controller
             return response()->json(['errors' => $validator->errors()], 400);
         }
 
-        $existingFunko = Funko::where('name', $request->name)->first();
-        if ($existingFunko) {
-            return response()->json(['message' => 'Funko already exists.'], 400);
-        }
-
         $funko = new Funko();
         $funko->name = $request->name;
         $funko->price = $request->price;
