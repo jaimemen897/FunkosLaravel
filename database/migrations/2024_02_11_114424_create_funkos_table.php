@@ -14,11 +14,10 @@ return new class extends Migration
         Schema::create('funkos', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->decimal('price', 8, 2);
-            $table->integer('stock');
-            $table->string('image');
-            $table->unsignedBigInteger('category_id');
-            $table->foreign('category_id')->references('id')->on('categories');
+            $table->decimal('price', 10)->default(0);
+            $table->integer('stock')->default(0);
+            $table->string('image')->default('https://via.placeholder.com/150');
+            $table->foreignId('category_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
