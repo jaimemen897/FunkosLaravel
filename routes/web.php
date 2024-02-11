@@ -24,6 +24,7 @@ Route::prefix('api')->group(function () {
         Route::get('/{id}', [FunkosController::class, 'show']);
         Route::post('/', [FunkosController::class, 'store']);
         Route::put('/{id}', [FunkosController::class, 'edit']);
+        Route::patch('/imagen/{id}', [FunkosController::class, 'updateImage']);
         Route::delete('/{id}', [FunkosController::class, 'destroy']);
     });
 });
