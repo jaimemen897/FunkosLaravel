@@ -10,7 +10,7 @@ class CategoryController extends Controller
 {
     public function index(Request $request)
     {
-        $categories = Category::search($request->search)->orderBy('id', 'asc')->paginate(5);
+        $categories = Category::search($request->search)->orderBy('name', 'asc')->paginate(5);
 
         return view('category.index')->with('categories', $categories);
     }
@@ -89,7 +89,8 @@ class CategoryController extends Controller
             ], $this->messages());
 
             if ($validator->fails()) {
-                return response()->json(['errors' => $validator->errors()], 400);
+                flash('Error al actualizar la categoría')->error();
+                return redirect()->back()->withErrors($validator)->withInput();
             }
 
             $category->name = $request->name;

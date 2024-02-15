@@ -19,6 +19,9 @@
                         <a class="nav-link" href="{{ route('funkos.index') }}">Funkos</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="{{ route('category.index') }}">Categorías</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="{{ route('funkos.store') }}">Nuevo funko</a>
                     </li>
                 </ul>

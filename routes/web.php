@@ -33,7 +33,7 @@ Route::prefix('category')->group(function () {
     Route::get('/create', [App\Http\Controllers\CategoryController::class, 'store'])->name('category.store');
     Route::post('/create', [App\Http\Controllers\CategoryController::class, 'create'])->name('category.create');
 
-    Route::get('/{id}', [App\Http\Controllers\CategoryController::class, 'show'])->where('id', '[0-9]+')->name('category.show');
+    Route::get('/{id}', [App\Http\Controllers\CategoryController::class, 'show'])->where('id')->name('category.show');
 
     Route::get('/edit/{id}', [App\Http\Controllers\CategoryController::class, 'edit'])->name('category.edit');
     Route::put('/edit/{id}', [App\Http\Controllers\CategoryController::class, 'update'])->name('category.update');
