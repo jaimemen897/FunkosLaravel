@@ -39,6 +39,7 @@ Route::prefix('category')->group(function () {
     Route::put('/edit/{id}', [App\Http\Controllers\CategoryController::class, 'update'])->name('category.update');
 
     Route::delete('/delete/{id}', [App\Http\Controllers\CategoryController::class, 'destroy'])->name('category.destroy');
+    Route::patch('/active/{id}', [App\Http\Controllers\CategoryController::class, 'active'])->name('category.active');
 });
 
 

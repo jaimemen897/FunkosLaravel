@@ -21,7 +21,8 @@ class CategoryController extends Controller
         if ($categories) {
             return $categories->toJson();
         } else {
-            return response()->json(['message' => 'Categories not found.'], 404);
+            flash('No se encontraron categorías')->error();
+            return redirect()->route('category.index');
         }
     }
 
@@ -31,7 +32,7 @@ class CategoryController extends Controller
         if ($category) {
             return view('category.show')->with('category', $category);
         } else {
-            flash('Category no encontrado')->error();
+            flash('Categoría no encontrada')->error();
             return redirect()->route('category.index');
         }
     }
@@ -42,7 +43,8 @@ class CategoryController extends Controller
         if ($category) {
             return $category->toJson();
         } else {
-            return response()->json(['message' => 'Category not found.'], 404);
+            flash('Categoría no encontrada')->error();
+            return redirect()->route('category.index');
         }
     }
 
@@ -64,6 +66,7 @@ class CategoryController extends Controller
 
         $category = new Category();
         $category->name = $request->name;
+        $category->is_deleted = false;
         $category->save();
         flash('Categoría creada correctamente')->success();
         return response()->json(['message' => 'Category created successfully.'], 201);
@@ -94,6 +97,7 @@ class CategoryController extends Controller
             }
 
             $category->name = $request->name;
+            $category->is_deleted = false;
             $category->save();
             flash('Categoría actualizada correctamente')->success();
             return redirect()->route('category.index');
@@ -103,11 +107,26 @@ class CategoryController extends Controller
         }
     }
 
-    public function delete($id)
+    public function active($id)
     {
         $category = Category::find($id);
         if ($category) {
-            $category->delete();
+            $category->is_deleted = false;
+            $category->save();
+            flash('Categoría activada correctamente')->success();
+            return redirect()->route('category.index');
+        } else {
+            flash('Category no encontrado')->error();
+            return redirect()->route('category.index');
+        }
+    }
+
+    public function destroy($id)
+    {
+        $category = Category::find($id);
+        if ($category) {
+            $category->is_deleted = true;
+            $category->save();
             flash('Categoría eliminada correctamente')->success();
             return redirect()->route('category.index');
         } else {

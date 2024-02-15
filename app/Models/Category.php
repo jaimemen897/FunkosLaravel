@@ -12,7 +12,7 @@ class Category extends Model
     use HasFactory;
     use HasUuids;
 
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'is_deleted'];
     protected $keyType = 'string';
     public $incrementing = false;
 

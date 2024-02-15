@@ -35,15 +35,19 @@
 
                                 <div class="d-flex flex-wrap">
                                     <div class="cajaBotones w-100">
-                                        <a href="{{ route('funkos.show', $funko->id) }}" class="btn btn-primary botonCajaFunko"><i
+                                        <a href="{{ route('funkos.show', $funko->id) }}"
+                                           class="btn btn-primary botonCajaFunko"><i
                                                 class="bi bi-eye"></i> Detalles</a>
-                                        <a href="{{ route('funkos.edit', $funko->id) }}" class="btn btn-secondary botonCajaFunko"><i
+                                        <a href="{{ route('funkos.edit', $funko->id) }}"
+                                           class="btn btn-secondary botonCajaFunko"><i
                                                 class="bi bi-pencil"></i> Editar</a>
-                                        <a href="{{ route('funkos.editImage', $funko->id) }}" class="btn btn-info botonCajaFunko"><i
+                                        <a href="{{ route('funkos.editImage', $funko->id) }}"
+                                           class="btn btn-info botonCajaFunko"><i
                                                 class="bi bi-image"></i> Imagen</a>
                                     </div>
                                     <div class="w-100">
-                                        <form action="{{ route('funkos.destroy', $funko->id) }}" method="POST" class="w-100">
+                                        <form action="{{ route('funkos.destroy', $funko->id) }}" method="POST"
+                                              class="w-100">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger botonCajaFunko w-100"
@@ -59,7 +63,6 @@
                 @endforeach
             </div>
             <a class="btn btn-success mt-4" href={{ route('funkos.store') }}><i class="bi bi-plus"></i> Nuevo Funko</a>
-
         @else
             <div class="alert alert-warning" role="alert">
                 <p class='mb-0'>

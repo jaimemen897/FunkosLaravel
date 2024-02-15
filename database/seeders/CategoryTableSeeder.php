@@ -13,8 +13,8 @@ class CategoryTableSeeder extends Seeder
      */
     public function run(): void
     {
-        Category::create(['name' => 'Categoria 1']);
-        Category::create(['name' => 'Categoria 2']);
-        Category::create(['name' => 'Categoria 3']);
+        Category::create(['name' => 'Categoria 1', 'is_deleted' => false]);
+        Category::create(['name' => 'Categoria 2', 'is_deleted' => false]);
+        Category::create(['name' => 'Categoria 3', 'is_deleted' => false]);
     }
 }

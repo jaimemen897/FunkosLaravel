@@ -38,6 +38,15 @@
                         <td>
                             <a class="btn btn-secondary btn-sm"
                                href="{{ route('category.edit', $category->id) }}">Editar</a>
+                            <form action="{{ route('category.active', $category->id) }}" method="POST"
+                                  class="d-inline">
+                                @csrf
+                                @method('PATCH')
+                                <button type="submit" class="btn btn-success btn-sm"
+                                        onclick="return confirm('¿Estás seguro de que deseas activar esta categoría?');">
+                                    Activar
+                                </button>
+                            </form>
                             <form action="{{ route('category.destroy', $category->id) }}" method="POST"
                                   class="d-inline">
                                 @csrf

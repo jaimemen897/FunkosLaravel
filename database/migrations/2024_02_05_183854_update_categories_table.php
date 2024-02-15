@@ -17,6 +17,7 @@ return new class extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name')->unique();
+            $table->string('is_deleted')->default(false);
             $table->timestamps();
         });
         Schema::create('funkos', function (Blueprint $table) {
