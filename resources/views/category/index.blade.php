@@ -5,7 +5,7 @@
 @section('content')
 
     <div class="container py-5 mb-5">
-        <h1 class="mb-4">Listado de Funkos</h1>
+        <h1 class="mb-4">Listado de Categorías</h1>
 
         <form action="{{ route('category.index') }}" class="mb-3" method="get">
             @csrf

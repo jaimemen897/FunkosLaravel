@@ -34,7 +34,7 @@
                     @csrf
                     @method('PATCH')
                     <div class="form-group mb-3">
-                        <label for="image">Imagen:</label>
+                        <label for="image"><strong>Imagen:</strong></label> <br>
                         <input accept="image/*" class="form-control-file" id="image" name="image" required type="file">
                         <small class="text-danger"></small>
                     </div>
