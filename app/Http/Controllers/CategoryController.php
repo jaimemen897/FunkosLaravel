@@ -8,7 +8,14 @@ use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
 {
-    public function index()
+    public function index(Request $request)
+    {
+        $categories = Category::search($request->search)->orderBy('id', 'asc')->paginate(5);
+
+        return view('category.index')->with('categories', $categories);
+    }
+
+    public function findAll()
     {
         $categories = Category::all();
         if ($categories) {
@@ -22,29 +29,58 @@ class CategoryController extends Controller
     {
         $category = Category::find($id);
         if ($category) {
+            return view('category.show')->with('category', $category);
+        } else {
+            flash('Category no encontrado')->error();
+            return redirect()->route('category.index');
+        }
+    }
+
+    public function findById($id)
+    {
+        $category = Category::find($id);
+        if ($category) {
             return $category->toJson();
         } else {
             return response()->json(['message' => 'Category not found.'], 404);
         }
     }
 
-    public function store(Request $request)
+    public function store()
+    {
+        return view('category.create');
+    }
+
+    public function create(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|unique:categories|max:255|min:3|string'
         ], $this->messages());
 
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 400);
+            flash('Error al crear la categoría')->error();
+            return redirect()->back()->withErrors($validator)->withInput();
         }
 
         $category = new Category();
         $category->name = $request->name;
         $category->save();
+        flash('Categoría creada correctamente')->success();
         return response()->json(['message' => 'Category created successfully.'], 201);
     }
 
-    public function edit(Request $request, $id)
+    public function edit($id)
+    {
+        $category = Category::find($id);
+        if ($category) {
+            return view('category.edit')->with('category', $category);
+        } else {
+            flash('Category no encontrado')->error();
+            return redirect()->route('category.index');
+        }
+    }
+
+    public function update(Request $request, $id)
     {
         $category = Category::find($id);
         if ($category) {
@@ -58,24 +94,24 @@ class CategoryController extends Controller
 
             $category->name = $request->name;
             $category->save();
-            return response()->json(['message' => 'Category updated successfully.']);
+            flash('Categoría actualizada correctamente')->success();
+            return redirect()->route('category.index');
         } else {
-            return response()->json(['message' => 'Category not found.'], 404);
+            flash('Category no encontrado')->error();
+            return redirect()->route('category.index');
         }
     }
 
-    public function destroy($id)
+    public function delete($id)
     {
         $category = Category::find($id);
-        if ($category){
+        if ($category) {
             $category->delete();
-            return response()->json([
-                'message' => 'Category deleted successfully.'
-            ], 204);
+            flash('Categoría eliminada correctamente')->success();
+            return redirect()->route('category.index');
         } else {
-            return response()->json([
-                'message' => 'Category not found.'
-            ], 404);
+            flash('Category no encontrado')->error();
+            return redirect()->route('category.index');
         }
     }
 

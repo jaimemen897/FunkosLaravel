@@ -2,14 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Funko;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use function Laravel\Prompts\alert;
 
 class FunkosController extends Controller
 {
-    public function index()
+    /*FIND ALL*/
+    public function index(Request $request)
+    {
+        $funkos = Funko::search($request->search)->orderBy('id', 'asc')->paginate(3);
+
+        return view('funkos.index')->with('funkos', $funkos);
+    }
+
+    public function findAll()
     {
         $funkos = Funko::all();
         if ($funkos) {
@@ -19,7 +30,19 @@ class FunkosController extends Controller
         }
     }
 
+    /*FIND BY ID*/
     public function show($id)
+    {
+        $funko = Funko::find($id);
+        if ($funko) {
+            return view('funkos.show')->with('funko', $funko);
+        } else {
+            flash('Funko no encontrado')->error();
+            return redirect()->route('funkos.index');
+        }
+    }
+
+    public function findById($id)
     {
         $funko = Funko::find($id);
         if ($funko) {
@@ -29,7 +52,14 @@ class FunkosController extends Controller
         }
     }
 
-    public function store(Request $request)
+    /*CREATE*/
+    public function store()
+    {
+        $categories = Category::all();
+        return view('funkos.create')->with('categories', $categories);
+    }
+
+    public function create(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|unique:funkos|max:255|min:3|string',
@@ -39,7 +69,8 @@ class FunkosController extends Controller
         ], $this->messages());
 
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 400);
+            flash('Error al crear el Funko')->error();
+            return redirect()->back()->withErrors($validator)->withInput();
         }
 
         $funko = new Funko();
@@ -49,18 +80,31 @@ class FunkosController extends Controller
         $funko->image = $funko::$IMAGE_DEFAULT;
         $funko->category_id = $request->category_id;
         $funko->save();
-        return response()->json(['message' => 'Funko created successfully.'], 201);
+        flash('Funko creado correctamente')->success();
+        return redirect()->route('funkos.index');
     }
 
-    public function edit(Request $request, $id)
+    /*UPDATE*/
+    public function edit($id)
+    {
+        $funko = Funko::find($id);
+        if ($funko) {
+            $categories = Category::all();
+            return view('funkos.edit')->with('funko', $funko)->with('categories', $categories);
+        } else {
+            return response()->json(['message' => 'Funko not found.'], 404);
+        }
+    }
+
+    public function update(Request $request, $id)
     {
         $funko = Funko::find($id);
         if ($funko) {
             $validator = Validator::make($request->all(), [
-                'name' => 'required|unique:funkos|max:255|min:3|string',
-                'price' => 'required|numeric',
-                'stock' => 'required|integer',
-                'category_id' => 'required|integer'
+                'name' => 'required:funkos|max:255|min:3|string',
+                'price' => 'numeric',
+                'stock' => 'integer',
+                'category_id' => 'integer'
             ], $this->messages());
 
             if ($validator->fails()) {
@@ -72,7 +116,20 @@ class FunkosController extends Controller
             $funko->stock = $request->stock;
             $funko->category_id = $request->category_id;
             $funko->save();
-            return response()->json(['message' => 'Funko updated successfully.']);
+            flash('Funko actualizado correctamente')->success();
+            return redirect()->route('funkos.index');
+        } else {
+            flash('Funko no encontrado')->error();
+            return redirect()->route('funkos.index');
+        }
+    }
+
+    /*UPDATE IMAGE*/
+    public function editImage($id)
+    {
+        $funko = Funko::find($id);
+        if ($funko) {
+            return view('funkos.image')->with('funko', $funko);
         } else {
             return response()->json(['message' => 'Funko not found.'], 404);
         }
@@ -88,32 +145,46 @@ class FunkosController extends Controller
             return response()->json(['errors' => $validator->errors()], 400);
         }
         try {
-            $funko = $this->show($id);
+            $funko = Funko::find($id);
+
+            if (!$funko) {
+                return response()->json(['message' => 'Funko not found.'], 404);
+            }
+
             if ($funko->image !== Funko::$IMAGE_DEFAULT && Storage::exists($funko->image)) {
                 Storage::delete($funko->image);
             }
+
             $image = $request->file('image');
-            $extension = $image->getClientOriginalExtension();
-            $fileToSave = 'funkos/' . time() . '.' . $extension;
-            $funko->image = $image->storeAs('public', $fileToSave, 'public');
+            $filename= $image->getClientOriginalName();
+            $fileToSave = time() . $filename;
+            $image->storeAs('public/public/funkos', $fileToSave);
+            $funko->image = $fileToSave;
+
             $funko->save();
-            return response()->json(['message' => 'Image updated successfully.']);
-        } catch (\Exception $e) {
-            return response()->json(['message' => 'Error updating the image: ' . $e->getMessage()], 419);
+            flash('Imagen actualizada correctamente')->success();
+            return redirect()->route('funkos.index');
+        } catch (Exception $e) {
+            flash('Error al actualizar la imagen')->error();
+            return redirect()->route('funkos.index');
         }
     }
 
+    /*DELETE*/
     public function destroy($id)
     {
         $funko = Funko::find($id);
         if ($funko) {
-            if ($funko->image !== Funko::$IMAGE_DEFAULT && Storage::exists($funko->image)) {
-                Storage::delete($funko->image);
+            $imagePath = 'public/public/funkos/' . $funko->image;
+            if ($funko->image !== Funko::$IMAGE_DEFAULT && Storage::exists($imagePath)) {
+                Storage::delete($imagePath);
             }
             $funko->delete();
-            return response()->json(['message' => 'Funko deleted successfully.']);
+            flash('Funko eliminado correctamente')->success();
+            return redirect()->route('funkos.index');
         } else {
-            return response()->json(['message' => 'Funko not found.'], 404);
+            flash('Funko no encontrado')->error();
+            return redirect()->route('funkos.index');
         }
     }
 

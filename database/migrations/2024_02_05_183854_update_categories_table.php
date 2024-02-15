@@ -11,22 +11,25 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::disableForeignKeyConstraints();
+        Schema::dropIfExists('funkos');
+        Schema::dropIfExists('categories');
+        Schema::create('categories', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->string('name')->unique();
+            $table->timestamps();
+        });
         Schema::create('funkos', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->decimal('price', 10)->default(0);
             $table->integer('stock')->default(0);
             $table->string('image')->default('https://via.placeholder.com/150');
-            $table->foreignId('category_id')->constrained()->onDelete('cascade');
+            $table->foreignUuid('category_id')->references('id')->on('categories');
             $table->timestamps();
         });
+        Schema::enableForeignKeyConstraints();
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::dropIfExists('funkos');
-    }
+
 };
