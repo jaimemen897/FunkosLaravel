@@ -69,7 +69,7 @@ class CategoryController extends Controller
         $category->is_deleted = false;
         $category->save();
         flash('Categoría creada correctamente')->success();
-        return response()->json(['message' => 'Category created successfully.'], 201);
+        return redirect()->route('category.index');
     }
 
     public function edit($id)
