@@ -33,6 +33,10 @@ footer {
     color: #FFFFFF8C;
 }
 
+.formBorrar{
+    margin-right: 3px;
+}
+
 .botonCajaFunko{
     background-color: #cecece;
     border: 1px solid #f5f5f5;

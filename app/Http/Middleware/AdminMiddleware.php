@@ -16,6 +16,6 @@ class AdminMiddleware
             return $next($request);
         }
 
-        abort(403, 'No autorizado');
+        return redirect()->route('home')->with('error', 'No tienes permisos para acceder a esta página');
     }
 }
