@@ -44,7 +44,8 @@
                                 <div class="d-flex flex-wrap">
                                     @if(auth()->user() && auth()->user()->role == 'admin')
                                         <div class="cajaBotones w-100">
-                                            <form action="{{ route('funkos.destroy', $funko->id) }}" method="POST" class="formBorrar">
+                                            <form action="{{ route('funkos.destroy', $funko->id) }}" method="POST"
+                                                  class="formBorrar">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger botonCajaFunko w-100"
@@ -74,7 +75,9 @@
                     </div>
                 @endforeach
             </div>
-            <a class="btn btn-success mt-4" href={{ route('funkos.store') }}><i class="bi bi-plus"></i> Nuevo Funko</a>
+            @if(auth()->user() && auth()->user()->role == 'admin')
+                <a class="btn btn-success mt-4" href={{ route('funkos.store') }}><i class="bi bi-plus"></i> Nuevo Funko</a>
+            @endif
         @else
             <div class="alert alert-warning" role="alert">
                 <p class='mb-0'>

@@ -55,7 +55,7 @@ class FunkosController extends Controller
     /*CREATE*/
     public function store()
     {
-        $categories = Category::all();
+        $categories = Category::where('is_deleted', 0)->get();
         return view('funkos.create')->with('categories', $categories);
     }
 
@@ -69,7 +69,6 @@ class FunkosController extends Controller
         ], $this->messages());
 
         if ($validator->fails()) {
-            flash('Error al crear el Funko')->error();
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
@@ -101,10 +100,10 @@ class FunkosController extends Controller
         $funko = Funko::find($id);
         if ($funko) {
             $validator = Validator::make($request->all(), [
-                'name' => 'required:funkos|max:255|min:3|string',
+                'name' => 'max:255|min:3|string',
                 'price' => 'numeric',
                 'stock' => 'integer',
-                'category_id' => 'integer'
+                'category_id' => 'string'
             ], $this->messages());
 
             if ($validator->fails()) {
