@@ -138,11 +138,11 @@ class CategoryController extends Controller
     public function messages()
     {
         return [
-            'name.required' => 'The name field is required.',
-            'name.unique' => 'The name has already been taken.',
-            'name.max' => 'The name may not be greater than 255 characters.',
-            'name.min' => 'The name must be at least 3 characters.',
-            'name.string' => 'The name must be a string.'
+            'name.required' => 'El campo nombre es obligatorio.',
+            'name.unique' => 'El nombre ya ha sido tomado.',
+            'name.max' => 'El nombre no puede tener más de 255 caracteres.',
+            'name.min' => 'El nombre debe tener al menos 3 caracteres.',
+            'name.string' => 'El nombre debe ser una cadena de texto.'
         ];
     }
 }

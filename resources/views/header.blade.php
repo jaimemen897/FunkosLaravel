@@ -13,18 +13,25 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('login') }}">Iniciar sesión</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="{{ route('funkos.index') }}">Funkos</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('category.index') }}">Categorías</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('funkos.store') }}">Nuevo funko</a>
-                    </li>
+                    @if( auth()->user() && auth()->user()->role == 'admin' )
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('category.index') }}">Categorías</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('funkos.store') }}">Nuevo funko</a>
+                        </li>
+                    @endif
                 </ul>
+                @if( auth()->user() )
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <button class="btn btn-dark botonSesion" type="submit">Cerrar sesión</button>
+                    </form>
+                @else
+                    <a href="{{ route('login') }}" class="btn btn-dark botonSesion">Iniciar sesión</a>
+                @endif
                 <span class="navbar-text">
                     {{ auth()->user()->name ?? 'Invitado' }}
                 </span>

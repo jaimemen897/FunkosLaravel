@@ -33,6 +33,6 @@
                             class="bi bi-github"></i></a>
                 </section>
         </div>
-        <p class="m-0 text-center text-white">Copyright &copy; Jaime Medina 2023</p>
+        <p class="m-0 text-center text-white">Copyright &copy; Jaime Medina 2024</p>
     </div>
 </footer>

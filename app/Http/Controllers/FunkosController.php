@@ -65,7 +65,7 @@ class FunkosController extends Controller
             'name' => 'required|unique:funkos|max:255|min:3|string',
             'price' => 'required|numeric|min:0.01',
             'stock' => 'required|integer|min:0',
-            'category_id' => 'required|integer'
+            'category_id' => 'required|string'
         ], $this->messages());
 
         if ($validator->fails()) {
@@ -191,22 +191,22 @@ class FunkosController extends Controller
     public function messages()
     {
         return [
-            'name.required' => 'The name is required.',
-            'name.unique' => 'The name is already in use.',
-            'name.max' => 'The name is too long.',
-            'name.min' => 'The name is too short.',
-            'name.string' => 'The name must be a string.',
-            'price.required' => 'The price is required.',
-            'price.numeric' => 'The price must be a number.',
-            'price.min' => 'The price must be at least 0.01.',
-            'stock.required' => 'The stock is required.',
-            'stock.integer' => 'The stock must be an integer.',
-            'stock.min' => 'The stock must be at least 0.',
-            'category_id.required' => 'The category is required.',
-            'category_id.integer' => 'The category must be an integer.',
-            'image.image' => 'The image must be an image.',
-            'image.mimes' => 'The image must be a file of type: jpeg, png, jpg, gif, svg.',
-            'image.max' => 'The image may not be greater than 2048 kilobytes.'
+            'name.required' => 'El nombre es obligatorio.',
+            'name.unique' => 'El nombre ya está en uso.',
+            'name.max' => 'El nombre es demasiado largo.',
+            'name.min' => 'El nombre es demasiado corto.',
+            'name.string' => 'El nombre debe ser una cadena de texto.',
+            'price.required' => 'El precio es obligatorio.',
+            'price.numeric' => 'El precio debe ser un número.',
+            'price.min' => 'El precio debe ser al menos 0.01.',
+            'stock.required' => 'El stock es obligatorio.',
+            'stock.integer' => 'El stock debe ser un número entero.',
+            'stock.min' => 'El stock debe ser al menos 0.',
+            'category_id.required' => 'La categoría es obligatoria.',
+            'category_id.string' => 'La categoría debe ser una cadena de texto.',
+            'image.image' => 'La imagen debe ser una imagen.',
+            'image.mimes' => 'La imagen debe ser un archivo de tipo: jpeg, png, jpg, gif, svg.',
+            'image.max' => 'La imagen no puede ser mayor de 2048 kilobytes.'
         ];
     }
 }

@@ -34,27 +34,31 @@
                                 <p class="card-text">Precio: {{ $funko->price }} - Stock: {{ $funko->stock }}</p>
 
                                 <div class="d-flex flex-wrap">
-                                    <div class="cajaBotones w-100">
-                                        <a href="{{ route('funkos.show', $funko->id) }}"
-                                           class="btn btn-primary botonCajaFunko"><i
-                                                class="bi bi-eye"></i> Detalles</a>
-                                        <a href="{{ route('funkos.edit', $funko->id) }}"
-                                           class="btn btn-secondary botonCajaFunko"><i
-                                                class="bi bi-pencil"></i> Editar</a>
-                                        <a href="{{ route('funkos.editImage', $funko->id) }}"
-                                           class="btn btn-info botonCajaFunko"><i
-                                                class="bi bi-image"></i> Imagen</a>
-                                    </div>
+                                    @if(auth()->user() && auth()->user()->role == 'admin')
+                                        <div class="cajaBotones w-100">
+                                            <form action="{{ route('funkos.destroy', $funko->id) }}" method="POST" class="formBorrar">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger botonCajaFunko w-100"
+                                                        onclick="return confirm('¿Desea borrar este funko?')">
+                                                    <i class="bi bi-trash"></i> Borrar
+                                                </button>
+                                            </form>
+                                            <a href="{{ route('funkos.edit', $funko->id) }}"
+                                               class="btn btn-secondary botonCajaFunko">
+                                                <i class="bi bi-pencil"></i> Editar
+                                            </a>
+                                            <a href="{{ route('funkos.editImage', $funko->id) }}"
+                                               class="btn btn-info botonCajaFunko">
+                                                <i class="bi bi-image"></i> Imagen
+                                            </a>
+                                        </div>
+                                    @endif
                                     <div class="w-100">
-                                        <form action="{{ route('funkos.destroy', $funko->id) }}" method="POST"
-                                              class="w-100">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger botonCajaFunko w-100"
-                                                    onclick="return confirm('¿Desea borrar este funko?')">
-                                                <i class="bi bi-trash"></i> Borrar
-                                            </button>
-                                        </form>
+                                        <a href="{{ route('funkos.show', $funko->id) }}"
+                                           class="btn btn-primary botonCajaFunko w-100">
+                                            <i class="bi bi-eye"></i> Detalles
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -66,7 +70,7 @@
         @else
             <div class="alert alert-warning" role="alert">
                 <p class='mb-0'>
-                    <em>No se han encontrado funkos</em>
+                    No se encontraron funkos
                 </p>
             </div>
         @endif
