@@ -157,7 +157,7 @@ class FunkosController extends Controller
             $image = $request->file('image');
             $filename= $image->getClientOriginalName();
             $fileToSave = time() . $filename;
-            $image->storeAs('public/public/funkos', $fileToSave);
+            $image->storeAs('public/funkos', $fileToSave);
             $funko->image = $fileToSave;
 
             $funko->save();

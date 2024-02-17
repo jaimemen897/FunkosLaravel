@@ -47,7 +47,7 @@
                 <dt class="col-sm-2">Imagen:</dt>
                 <dd class="col-sm-10">
                     @if($funko->image != Funko::$IMAGE_DEFAULT)
-                        <img alt="Imagen del funko" class="img-fluid" src="{{ asset('storage/public/funkos/' . $funko->image) }}"
+                        <img alt="Imagen del funko" class="img-fluid" src="{{ asset('storage/funkos/' . $funko->image) }}"
                              width="300" height="300">
                     @else
                         <img alt="Imagen por defecto" class="img-fluid" src="{{ Funko::$IMAGE_DEFAULT }}" width="300"
