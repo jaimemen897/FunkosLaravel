@@ -16,7 +16,7 @@ class CheckRole
     public function handle(Request $request, Closure $next, ...$roles)
     {
         if (! $request->user()->hasAnyRole($roles)) {
-            abort(403, 'No autorizado');
+            return redirect()->route('funkos.index')->withErrors('No tienes permisos para acceder a esta página');
         }
 
         return $next($request);
