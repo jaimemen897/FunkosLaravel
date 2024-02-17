@@ -15,33 +15,11 @@ class CategoryController extends Controller
         return view('category.index')->with('categories', $categories);
     }
 
-    public function findAll()
-    {
-        $categories = Category::all();
-        if ($categories) {
-            return $categories->toJson();
-        } else {
-            flash('No se encontraron categorías')->error();
-            return redirect()->route('category.index');
-        }
-    }
-
     public function show($id)
     {
         $category = Category::find($id);
         if ($category) {
             return view('category.show')->with('category', $category);
-        } else {
-            flash('Categoría no encontrada')->error();
-            return redirect()->route('category.index');
-        }
-    }
-
-    public function findById($id)
-    {
-        $category = Category::find($id);
-        if ($category) {
-            return $category->toJson();
         } else {
             flash('Categoría no encontrada')->error();
             return redirect()->route('category.index');

@@ -15,6 +15,6 @@ class AdminMiddleware
         if (Auth::check() && Auth::user()->role === 'admin') {
             return $next($request);
         }
-        return redirect()->route('home')->with('error', 'No tienes permisos para acceder a esta página');
+        return redirect()->route('funkos.index')->withErrors('No tienes permisos para acceder a esta página');
     }
 }

@@ -107,7 +107,7 @@ class FunkosController extends Controller
             ], $this->messages());
 
             if ($validator->fails()) {
-                return response()->json(['errors' => $validator->errors()], 400);
+                return redirect()->back()->withErrors($validator)->withInput();
             }
 
             $funko->name = $request->name;

@@ -32,10 +32,14 @@
                     <div class="col-md-4 mb-4">
                         <div class="card">
                             @if($funko->image != Funko::$IMAGE_DEFAULT)
-                                <img class="card-img-top" alt="Imagen del funko"
-                                     src="{{ asset('storage/funkos/' . $funko->image) }}" width="406" height="406">
+                                <div class="divImage">
+                                    <img class="card-img-top" alt="Imagen del funko"
+                                         src="{{ asset('storage/funkos/' . $funko->image) }}">
+                                </div>
                             @else
-                                <img alt="Imagen por defecto" src="{{ Funko::$IMAGE_DEFAULT }}" width="406" height="406">
+                                <div class="divImage">
+                                    <img alt="Imagen por defecto" src="{{ Funko::$IMAGE_DEFAULT }}" >
+                                </div>
                             @endif
                             <div class="card-body">
                                 <h5 class="card-title">{{ $funko->name }}</h5>

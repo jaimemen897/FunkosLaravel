@@ -40,23 +40,10 @@
                                 @enderror
                             </div>
 
-                            <div class="mb-3 form-check">
-                                <input class="form-check-input" type="checkbox" name="remember"
-                                       id="remember" {{ old('remember') ? 'checked' : '' }}>
-                                <label class="form-check-label" for="remember">
-                                    {{ __('Recordarme') }}
-                                </label>
-                            </div>
-
                             <div class="d-grid gap-2">
                                 <button type="submit" class="btn btn-light">
                                     {{ __('Iniciar sesión') }}
                                 </button>
-                                @if (Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('¿Has olvidado tu contraseña?') }}
-                                    </a>
-                                @endif
                             </div>
                         </form>
                     </div>

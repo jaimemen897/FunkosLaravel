@@ -34,7 +34,7 @@ footer {
 }
 
 .formBorrar{
-    margin-right: 3px;
+    margin-right: 4px;
 }
 
 .botonCajaFunko{
@@ -61,4 +61,8 @@ footer {
     align-items: center;
 }
 
+.divImage{
+    height: 406px;
+    width: 406px
+}
 
