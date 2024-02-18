@@ -10,7 +10,6 @@
                 {{ $error }} <br>
             @endforeach
         </div>
-        <br/>
     @endif
     <div class="container mt-4 mb-5">
         <h1 class="mb-4">Listado de Funkos</h1>

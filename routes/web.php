@@ -42,6 +42,6 @@ Route::prefix('category')->group(function () {
 
     Route::delete('/delete/{id}', [App\Http\Controllers\CategoryController::class, 'destroy'])->name('category.destroy')->middleware(['auth', 'admin']);
     Route::patch('/active/{id}', [App\Http\Controllers\CategoryController::class, 'active'])->name('category.active')->middleware(['auth', 'admin']);
-})->middleware(['auth', 'admin']);
+});
 
 
