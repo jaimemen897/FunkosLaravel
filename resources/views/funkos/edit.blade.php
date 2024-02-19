@@ -13,7 +13,6 @@
                     {{ $error }}<br>
                 @endforeach
             </div>
-            <br/>
         @endif
 
         <form action="{{ route("funkos.update", $funko->id) }}" method="post">

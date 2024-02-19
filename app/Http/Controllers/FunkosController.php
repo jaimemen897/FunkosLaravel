@@ -20,16 +20,6 @@ class FunkosController extends Controller
         return view('funkos.index')->with('funkos', $funkos);
     }
 
-    public function findAll()
-    {
-        $funkos = Funko::all();
-        if ($funkos) {
-            return $funkos->toJson();
-        } else {
-            return response()->json(['message' => 'Funkos not found.'], 404);
-        }
-    }
-
     /*FIND BY ID*/
     public function show($id)
     {
@@ -39,16 +29,6 @@ class FunkosController extends Controller
         } else {
             flash('Funko no encontrado')->error();
             return redirect()->route('funkos.index');
-        }
-    }
-
-    public function findById($id)
-    {
-        $funko = Funko::find($id);
-        if ($funko) {
-            return $funko->toJson();
-        } else {
-            return response()->json(['message' => 'Funko not found.'], 404);
         }
     }
 

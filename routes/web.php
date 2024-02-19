@@ -35,7 +35,6 @@ Route::prefix('category')->group(function () {
     Route::get('/create', [App\Http\Controllers\CategoryController::class, 'store'])->name('category.store')->middleware(['auth', 'admin']);
     Route::post('/create', [App\Http\Controllers\CategoryController::class, 'create'])->name('category.create')->middleware(['auth', 'admin']);
 
-    Route::get('/{id}', [App\Http\Controllers\CategoryController::class, 'show'])->where('id', '^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$')->name('category.show')->middleware(['auth', 'admin']);
 
     Route::get('/edit/{id}', [App\Http\Controllers\CategoryController::class, 'edit'])->name('category.edit')->middleware(['auth', 'admin']);
     Route::put('/edit/{id}', [App\Http\Controllers\CategoryController::class, 'update'])->name('category.update')->middleware(['auth', 'admin']);

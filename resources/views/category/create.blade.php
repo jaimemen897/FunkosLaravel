@@ -12,7 +12,6 @@
                 {{ $error }}<br>
             @endforeach
         </div>
-        <br/>
     @endif
 
     <form action="{{ route("category.store") }}" method="post">

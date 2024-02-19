@@ -17,7 +17,6 @@
                     @endforeach
                 </ul>
             </div>
-            <br/>
         @endif
 
         <dl class="row">

@@ -15,17 +15,6 @@ class CategoryController extends Controller
         return view('category.index')->with('categories', $categories);
     }
 
-    public function show($id)
-    {
-        $category = Category::find($id);
-        if ($category) {
-            return view('category.show')->with('category', $category);
-        } else {
-            flash('Categoría no encontrada')->error();
-            return redirect()->route('category.index');
-        }
-    }
-
     public function store()
     {
         return view('category.create');
