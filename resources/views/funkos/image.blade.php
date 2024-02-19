@@ -43,7 +43,6 @@
                 </form>
             </div>
             <div class="col-sm-6">
-                <dt class="col-sm-2">Imagen:</dt>
                 <dd class="col-sm-10">
                     @if($funko->image != Funko::$IMAGE_DEFAULT)
                         <img alt="Imagen del funko" class="img-fluid" src="{{ asset('storage/funkos/' . $funko->image) }}"

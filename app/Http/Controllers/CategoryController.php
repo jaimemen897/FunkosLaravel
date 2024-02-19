@@ -67,11 +67,10 @@ class CategoryController extends Controller
             $category->is_deleted = false;
             $category->save();
             flash('Categoría actualizada correctamente')->success();
-            return redirect()->route('category.index');
         } else {
             flash('Category no encontrado')->error();
-            return redirect()->route('category.index');
         }
+        return redirect()->route('category.index');
     }
 
     public function active($id)
@@ -81,25 +80,35 @@ class CategoryController extends Controller
             $category->is_deleted = false;
             $category->save();
             flash('Categoría activada correctamente')->success();
-            return redirect()->route('category.index');
         } else {
             flash('Category no encontrado')->error();
-            return redirect()->route('category.index');
         }
+        return redirect()->route('category.index');
+    }
+
+    public function deactivate($id)
+    {
+        $category = Category::find($id);
+        if ($category) {
+            $category->is_deleted = true;
+            $category->save();
+            flash('Categoría desactivada correctamente')->success();
+        } else {
+            flash('Category no encontrado')->error();
+        }
+        return redirect()->route('category.index');
     }
 
     public function destroy($id)
     {
         $category = Category::find($id);
         if ($category) {
-            $category->is_deleted = true;
-            $category->save();
+            $category->delete();
             flash('Categoría eliminada correctamente')->success();
-            return redirect()->route('category.index');
         } else {
             flash('Category no encontrado')->error();
-            return redirect()->route('category.index');
         }
+        return redirect()->route('category.index');
     }
 
     public function messages()

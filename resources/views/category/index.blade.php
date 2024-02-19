@@ -36,7 +36,7 @@
                         <td>{{ $category->name }}</td>
                         <td>{{ $category->is_deleted ? 'Sí' : 'No' }}</td>
                         <td>
-                            <a class="btn btn-secondary btn-sm"
+                            <a class="btn btn-primary btn-sm"
                                href="{{ route('category.edit', $category->id) }}">Editar</a>
                             <form action="{{ route('category.active', $category->id) }}" method="POST"
                                   class="d-inline">
@@ -47,11 +47,21 @@
                                     Activar
                                 </button>
                             </form>
+                            <form action="{{ route('category.deactivate', $category->id) }}" method="POST"
+                                  class="d-inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-secondary btn-sm"
+                                        onclick="return confirm('¿Estás seguro de que deseas desactivar esta categoría?');">
+                                    Desactivar
+                                </button>
+                            </form>
                             <form action="{{ route('category.destroy', $category->id) }}" method="POST"
                                   class="d-inline">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger btn-sm"
+                                        {{ $category->hasFunkos() ? 'disabled' : '' }}
                                         onclick="return confirm('¿Estás seguro de que deseas eliminar esta categoría?');">
                                     Eliminar
                                 </button>
@@ -67,7 +77,7 @@
 
             </tbody>
         </table>
-        <a class="btn btn-success" href="{{ route('category.create') }}">Nueva Categoría</a>
+        <a class="btn btn-success" href="{{ route('category.create') }}"><i class="bi bi-plus"></i> Nueva Categoría</a>
     </div>
 
 @endsection

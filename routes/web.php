@@ -35,11 +35,11 @@ Route::prefix('category')->group(function () {
     Route::get('/create', [App\Http\Controllers\CategoryController::class, 'store'])->name('category.store')->middleware(['auth', 'admin']);
     Route::post('/create', [App\Http\Controllers\CategoryController::class, 'create'])->name('category.create')->middleware(['auth', 'admin']);
 
-
     Route::get('/edit/{id}', [App\Http\Controllers\CategoryController::class, 'edit'])->name('category.edit')->middleware(['auth', 'admin']);
     Route::put('/edit/{id}', [App\Http\Controllers\CategoryController::class, 'update'])->name('category.update')->middleware(['auth', 'admin']);
 
-    Route::delete('/delete/{id}', [App\Http\Controllers\CategoryController::class, 'destroy'])->name('category.destroy')->middleware(['auth', 'admin']);
+    Route::delete('/deactivate/{id}', [App\Http\Controllers\CategoryController::class, 'deactivate'])->name('category.deactivate')->middleware(['auth', 'admin']);
+    Route::delete('/destroy/{id}', [App\Http\Controllers\CategoryController::class, 'destroy'])->name('category.destroy')->middleware(['auth', 'admin']);
     Route::patch('/active/{id}', [App\Http\Controllers\CategoryController::class, 'active'])->name('category.active')->middleware(['auth', 'admin']);
 });
 

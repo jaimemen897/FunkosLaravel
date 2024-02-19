@@ -28,6 +28,11 @@ class Category extends Model
         }
     }
 
+    public function hasFunkos()
+    {
+        return $this->funkos->count() > 0;
+    }
+
     public static function booted()
     {
         static::creating(function ($model) {

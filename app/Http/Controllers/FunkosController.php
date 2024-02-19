@@ -35,7 +35,7 @@ class FunkosController extends Controller
     /*CREATE*/
     public function store()
     {
-        $categories = Category::where('is_deleted', 0)->get();
+        $categories = Category::where('is_deleted', 0)->orderBy('name', 'asc')->get();
         return view('funkos.create')->with('categories', $categories);
     }
 

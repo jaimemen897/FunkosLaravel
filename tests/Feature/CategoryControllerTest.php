@@ -9,18 +9,6 @@ use Tests\TestCase;
 
 class CategoryControllerTest extends TestCase
 {
-    /*Route::prefix('category')->group(function () {
-    Route::get('/', [App\Http\Controllers\CategoryController::class, 'index'])->name('category.index')->middleware(['auth', 'admin']);
-
-    Route::get('/create', [App\Http\Controllers\CategoryController::class, 'store'])->name('category.store')->middleware(['auth', 'admin']);
-    Route::post('/create', [App\Http\Controllers\CategoryController::class, 'create'])->name('category.create')->middleware(['auth', 'admin']);
-
-    Route::get('/edit/{id}', [App\Http\Controllers\CategoryController::class, 'edit'])->name('category.edit')->middleware(['auth', 'admin']);
-    Route::put('/edit/{id}', [App\Http\Controllers\CategoryController::class, 'update'])->name('category.update')->middleware(['auth', 'admin']);
-
-    Route::delete('/delete/{id}', [App\Http\Controllers\CategoryController::class, 'destroy'])->name('category.destroy')->middleware(['auth', 'admin']);
-    Route::patch('/active/{id}', [App\Http\Controllers\CategoryController::class, 'active'])->name('category.active')->middleware(['auth', 'admin']);
-});*/
     protected function setUp(): void
     {
         parent::setUp();
@@ -63,7 +51,10 @@ class CategoryControllerTest extends TestCase
         $category = Category::factory()->make();
         $response = $this->actingAs($user)->post('/category/create', $category->toArray());
         $response->assertRedirect('/category');
-        $this->assertDatabaseHas('categories', $category->toArray());
+        $this->assertDatabaseHas('categories', [
+            'name' => $category->name,
+            'is_deleted' => 0, // Modificado aquí
+        ]);
     }
 
     public function test_create_not_authorized()
@@ -96,7 +87,7 @@ class CategoryControllerTest extends TestCase
         $user = User::factory()->create(['role' => 'admin']);
         $category = Category::factory()->create();
         $category->name = Str::random(10);
-        $category->is_deleted = false; // set is_deleted to false
+        $category->is_deleted = false;
         $response = $this->actingAs($user)->put("/category/edit/$category->id", $category->toArray());
         $response->assertRedirect('/category');
         $this->assertDatabaseHas('categories', [
@@ -115,20 +106,62 @@ class CategoryControllerTest extends TestCase
         $response->assertRedirect('/funkos');
     }
 
+    public function test_deactivate()
+    {
+        $user = User::factory()->create(['role' => 'admin']);
+        $category = Category::factory()->create();
+        $response = $this->actingAs($user)->delete("/category/deactivate/$category->id");
+        $response->assertRedirect('/category');
+        $this->assertDatabaseHas('categories', [
+            'id' => $category->id,
+            'is_deleted' => 1,
+        ]);
+    }
+
+    public function test_deactivate_not_authorized()
+    {
+        $user = User::factory()->create(['role' => 'user']);
+        $category = Category::factory()->create();
+        $response = $this->actingAs($user)->delete("/category/deactivate/$category->id");
+        $response->assertRedirect('/funkos');
+    }
+
+    public function test_active()
+    {
+        $user = User::factory()->create(['role' => 'admin']);
+        $category = Category::factory()->create(['is_deleted' => 1]);
+        $response = $this->actingAs($user)->patch("/category/active/$category->id");
+        $response->assertRedirect('/category');
+        $this->assertDatabaseHas('categories', [
+            'id' => $category->id,
+            'is_deleted' => 0,
+        ]);
+    }
+
+    public function test_active_not_authorized()
+    {
+        $user = User::factory()->create(['role' => 'user']);
+        $category = Category::factory()->create(['is_deleted' => 1]);
+        $response = $this->actingAs($user)->patch("/category/active/$category->id");
+        $response->assertRedirect('/funkos');
+    }
+
     public function test_destroy()
     {
         $user = User::factory()->create(['role' => 'admin']);
         $category = Category::factory()->create();
-        $response = $this->actingAs($user)->delete("/category/delete/$category->id");
+        $response = $this->actingAs($user)->delete("/category/destroy/$category->id");
         $response->assertRedirect('/category');
-        $this->assertDatabaseMissing('categories', $category->toArray());
+        $this->assertDatabaseMissing('categories', [
+            'id' => $category->id,
+        ]);
     }
 
     public function test_destroy_not_authorized()
     {
         $user = User::factory()->create(['role' => 'user']);
         $category = Category::factory()->create();
-        $response = $this->actingAs($user)->delete("/category/delete/$category->id");
+        $response = $this->actingAs($user)->delete("/category/destroy/$category->id");
         $response->assertRedirect('/funkos');
     }
 }

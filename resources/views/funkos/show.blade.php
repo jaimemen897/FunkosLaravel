@@ -16,10 +16,10 @@
                 <dd class="col-sm-10">{{ $funko->name }}</dd>
 
                 <dt class="col-sm-2">Precio:</dt>
-                <dd class="col-sm-10">{{ $funko->price }}</dd>
+                <dd class="col-sm-10">{{ $funko->price }}€</dd>
 
                 <dt class="col-sm-2">Stock:</dt>
-                <dd class="col-sm-10">{{ $funko->stock }}</dd>
+                <dd class="col-sm-10">{{ $funko->stock }} Uds.</dd>
 
                 <dt class="col-sm-2">Categoría:</dt>
                 <dd class="col-sm-10">{{ $funko->category->name }}</dd>
@@ -30,7 +30,6 @@
                 </div>
             </div>
             <div class="col-sm-6">
-                <dt class="col-sm-2">Imagen:</dt>
                 <dd class="col-sm-10">
                     @if($funko->image != Funko::$IMAGE_DEFAULT)
                         <img alt="Imagen del funko" class="img-fluid" src="{{ asset('storage/funkos/' . $funko->image) }}" width="280" height="280">

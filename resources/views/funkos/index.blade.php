@@ -42,7 +42,7 @@
                             @endif
                             <div class="card-body">
                                 <h5 class="card-title">{{ $funko->name }}</h5>
-                                <p class="card-text">Precio: {{ $funko->price }} - Stock: {{ $funko->stock }}</p>
+                                <p class="card-text">Precio: {{ $funko->price }}€ - Stock: {{ $funko->stock }}</p>
 
                                 <div class="d-flex flex-wrap">
                                     @if(auth()->user() && auth()->user()->role == 'admin')
