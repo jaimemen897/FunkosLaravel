@@ -1,4 +1,6 @@
-@extends('layouts.app')
+@extends('main')
+
+@section('title', 'Registrarse')
 
 @section('content')
     <div class="container py-5">
@@ -47,7 +49,7 @@
                             </div>
 
                             <div class="d-grid gap-2">
-                                <button type="submit" class="btn btn-light">
+                                <button type="submit" class="btn btn-primary">
                                     {{ __('Registrarse') }}
                                 </button>
                             </div>

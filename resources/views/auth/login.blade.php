@@ -1,4 +1,6 @@
-@extends('layouts.app')
+@extends('main')
+
+@section('title', 'Iniciar sesión')
 
 @section('content')
     <div class="container py-5">
@@ -46,6 +48,11 @@
                                 </button>
                             </div>
                         </form>
+
+                        {{--registrarse--}}
+                        <div class="d-grid gap-2">
+                            <a href="{{ route('register') }}" class="btn btn-link">¿No tienes una cuenta? Registrate</a>
+                        </div>
                     </div>
                 </div>
             </div>
