@@ -46,22 +46,22 @@
 
                                 <div class="d-flex flex-wrap">
                                     @if(auth()->user() && auth()->user()->role == 'admin')
-                                        <div class="cajaBotones w-100">
+                                        <div class="cajaBotones flex-wrap w-100">
                                             <form action="{{ route('funkos.destroy', $funko->id) }}" method="POST"
                                                   class="formBorrar">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-danger botonCajaFunko w-100"
+                                                <button type="submit" class="btn btn-danger botonCajaFunko w-100 flex-fill"
                                                         onclick="return confirm('¿Desea borrar este funko?')">
                                                     <i class="bi bi-trash"></i> Borrar
                                                 </button>
                                             </form>
                                             <a href="{{ route('funkos.edit', $funko->id) }}"
-                                               class="btn btn-secondary botonCajaFunko">
+                                               class="btn btn-secondary botonCajaFunko flex-fill">
                                                 <i class="bi bi-pencil"></i> Editar
                                             </a>
                                             <a href="{{ route('funkos.editImage', $funko->id) }}"
-                                               class="btn btn-info botonCajaFunko">
+                                               class="btn btn-info botonCajaFunko flex-fill">
                                                 <i class="bi bi-image"></i> Imagen
                                             </a>
                                         </div>

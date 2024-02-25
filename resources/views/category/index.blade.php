@@ -34,7 +34,13 @@
                     <tr>
                         <td>{{ $category->id }}</td>
                         <td>{{ $category->name }}</td>
-                        <td>{{ $category->is_deleted ? 'Sí' : 'No' }}</td>
+                        <td>
+                            @if($category->is_deleted == 1)
+                                <span class="badge bg-danger">Desactivada</span>
+                            @else
+                                <span class="badge bg-success">Activa</span>
+                            @endif
+                        </td>
                         <td>
                             <a class="btn btn-primary btn-sm"
                                href="{{ route('category.edit', $category->id) }}">Editar</a>

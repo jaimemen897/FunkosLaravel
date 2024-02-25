@@ -27,13 +27,19 @@
                 @if( auth()->user() )
                     <form action="{{ route('logout') }}" method="POST">
                         @csrf
-                        <button class="btn btn-dark botonSesion" type="submit">Cerrar sesión</button>
+                        <button class="btn btn-dark botonSesion" type="submit">
+                            <i class="bi bi-box-arrow-in-right"></i>
+                            Cerrar sesión
+                        </button>
                     </form>
                 @else
-                    <a href="{{ route('login') }}" class="btn btn-dark botonSesion">Iniciar sesión</a>
+                    <a href="{{ route('login') }}" class="btn btn-dark botonSesion me-1">
+                        <i class="bi bi-box-arrow-in-right"></i>
+                        Iniciar sesión
+                    </a>
                 @endif
                 <span class="navbar-text">
-                    {{ auth()->user()->name ?? 'Invitado' }}
+                    <i class="bi bi-person-circle"></i> &nbsp;{{ auth()->user()->name ?? 'Invitado' }}
                 </span>
             </div>
         </div>
