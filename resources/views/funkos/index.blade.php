@@ -32,12 +32,12 @@
                         <div class="card">
                             @if($funko->image != Funko::$IMAGE_DEFAULT)
                                 <div class="divImage">
-                                    <img class="card-img-top" alt="Imagen del funko"
+                                    <img class="card-img-top p-3" alt="Imagen del funko"
                                          src="{{ asset('storage/funkos/' . $funko->image) }}">
                                 </div>
                             @else
                                 <div class="divImage">
-                                    <img alt="Imagen por defecto" src="{{ Funko::$IMAGE_DEFAULT }}" >
+                                    <img class="w-100 p-3" alt="Imagen por defecto" src="{{ Funko::$IMAGE_DEFAULT }}" >
                                 </div>
                             @endif
                             <div class="card-body">

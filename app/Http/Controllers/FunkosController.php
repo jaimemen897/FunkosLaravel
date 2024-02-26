@@ -8,7 +8,6 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
-use function Laravel\Prompts\alert;
 
 class FunkosController extends Controller
 {
@@ -121,21 +120,23 @@ class FunkosController extends Controller
         ], $this->messages());
 
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 400);
+            return redirect()->back()->withErrors($validator)->withInput();
         }
         try {
             $funko = Funko::find($id);
 
             if (!$funko) {
-                return response()->json(['message' => 'Funko not found.'], 404);
+                flash('Funko no encontrado')->error();
+                return redirect()->route('funkos.index');
             }
 
-            if ($funko->image !== Funko::$IMAGE_DEFAULT && Storage::exists($funko->image)) {
-                Storage::delete($funko->image);
+            $oldImagePath = 'public/funkos/' . $funko->image;
+            if ($funko->image !== Funko::$IMAGE_DEFAULT && Storage::exists($oldImagePath)) {
+                Storage::delete($oldImagePath);
             }
 
             $image = $request->file('image');
-            $filename= $image->getClientOriginalName();
+            $filename = $image->getClientOriginalName();
             $fileToSave = time() . $filename;
             $image->storeAs('public/funkos', $fileToSave);
             $funko->image = $fileToSave;
@@ -160,11 +161,10 @@ class FunkosController extends Controller
             }
             $funko->delete();
             flash('Funko eliminado correctamente')->success();
-            return redirect()->route('funkos.index');
         } else {
             flash('Funko no encontrado')->error();
-            return redirect()->route('funkos.index');
         }
+        return redirect()->route('funkos.index');
     }
 
     public function messages()
